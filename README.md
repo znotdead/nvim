@@ -1,6 +1,6 @@
 # nvim
 ```
-apt install neovim python3-pip
+apt install neovim python3-pip exuberant-ctags
 
 pip3 install --upgrade neovim
 
