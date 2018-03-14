@@ -10,13 +10,24 @@ Plug 'majutsushi/tagbar'
 Plug 'vim-scripts/TaskList.vim'
 Plug 'SirVer/ultisnips'
 Plug 'znotdead/vim-snippets'
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'rstacruz/sparkup'
 Plug 'scrooloose/syntastic'
 Plug 'fs111/pydoc.vim'
 Plug 'bling/vim-airline'
 Plug 'jmcantrell/vim-virtualenv'
 Plug 'tpope/vim-fugitive'
+" Language Server Client
+Plug 'autozimu/LanguageClient-neovim', {
+    \ 'branch': 'next',
+    \ 'do': 'bash install.sh',
+    \ }
+" (Optional) Multi-entry selection UI.
+Plug 'junegunn/fzf'
+" (Completion plugin option 1)
+" Plug 'roxma/nvim-completion-manager'
+" (Completion plugin option 2)
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'zchee/deoplete-jedi'
 
 call plug#end()
 
@@ -173,7 +184,7 @@ set softtabstop=4           " <BS> over an autoindent deletes both spaces.
 set expandtab               " Use spaces, not tabs, for autoindent/tab key.
 set shiftround              " rounds indent to a multiple of shiftwidth
 set autoindent              " Keep indentation level from previous line
-set textwidth=79            " 
+set textwidth=99            " 
 
 """ Command Line
 set history=1000            " Keep a very long command-line history.
@@ -246,3 +257,17 @@ nmap <F8> :TagbarToggle<CR>
 "-------------------------------------------------------------------------------
 """ PYDOC path
 " let g:pydoc_cmd=/usr/bin/pydoc
+
+"-------------------------------------------------------------------------------
+" Language Server
+"-------------------------------------------------------------------------------
+"let g:LanguageClient_serverCommands = {
+"    \ 'python': ['pyls', '-v'],
+"    \ }
+"-------------------------------------------------------------------------------
+" Tabstops by Language
+"-------------------------------------------------------------------------------
+autocmd Filetype html setlocal ts=2 sts=2 sw=2 tw=0
+autocmd Filetype djangohtml setlocal ts=2 sts=2 sw=2 tw=0
+autocmd Filetype javascript setlocal ts=2 sts=2 sw=2 tw=0
+autocmd Filetype python setlocal ts=4 sts=4 sw=4
