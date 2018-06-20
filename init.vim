@@ -16,6 +16,7 @@ Plug 'fs111/pydoc.vim'
 Plug 'bling/vim-airline'
 Plug 'jmcantrell/vim-virtualenv'
 Plug 'tpope/vim-fugitive'
+Plug 'google/yapf', { 'rtp': 'plugins/vim', 'for': 'python' }
 " Language Server Client
 Plug 'autozimu/LanguageClient-neovim', {
     \ 'branch': 'next',
@@ -28,6 +29,9 @@ Plug 'junegunn/fzf'
 " (Completion plugin option 2)
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'zchee/deoplete-jedi'
+Plug 'prettier/vim-prettier', {
+  \ 'do': 'npm install',
+  \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue'] }
 
 call plug#end()
 
@@ -214,6 +218,10 @@ exe 'inoremap <script> <S-Insert>' paste#paste_cmd['i']
 
 " CTRL+S saves the buffer
 nmap <C-s> :w<CR>
+
+" CTRL+F format python with YAPF
+map <C-F> :call yapf#YAPF()<cr>
+imap <C-F> <c-o>:call yapf#YAPF()<cr>
 
 " setup persisent undo
 if has("undofile")
