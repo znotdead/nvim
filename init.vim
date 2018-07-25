@@ -24,6 +24,7 @@ Plug 'autozimu/LanguageClient-neovim', {
     \ }
 " (Optional) Multi-entry selection UI.
 Plug 'junegunn/fzf'
+Plug 'junegunn/fzf.vim'
 " (Completion plugin option 1)
 " Plug 'roxma/nvim-completion-manager'
 " (Completion plugin option 2)
@@ -279,3 +280,26 @@ autocmd Filetype html setlocal ts=2 sts=2 sw=2 tw=0
 autocmd Filetype djangohtml setlocal ts=2 sts=2 sw=2 tw=0
 autocmd Filetype javascript setlocal ts=2 sts=2 sw=2 tw=0
 autocmd Filetype python setlocal ts=4 sts=4 sw=4
+"-------------------------------------------------------------------------------
+" Fuzzy Finder
+"-------------------------------------------------------------------------------
+nnoremap <silent> <M-o> :FZF<CR>
+vnoremap <silent> <M-o> :FZF<CR>
+"-------------------------------------------------------------------------------
+" Rip Grep with Fuzzy Finder
+"-------------------------------------------------------------------------------
+" Example: :Rg <smth> - find one mention in file
+" Example: :Rga <smth> - find all mentions
+command! -bang -nargs=* Rg
+  \ call fzf#vim#grep(
+  \   'rg --column --max-count=1 --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>), 1,
+  \   <bang>0 ? fzf#vim#with_preview('up:60%')
+  \           : fzf#vim#with_preview('right:50%:hidden', '?'),
+  \   <bang>0)
+
+command! -bang -nargs=* Rga
+  \ call fzf#vim#grep(
+  \   'rg --column --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>), 1,
+  \   <bang>0 ? fzf#vim#with_preview('up:60%')
+  \           : fzf#vim#with_preview('right:50%:hidden', '?'),
+  \   <bang>0)
