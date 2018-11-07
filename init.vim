@@ -292,14 +292,14 @@ vnoremap <silent> <M-o> :FZF<CR>
 " Example: :Rga <smth> - find all mentions
 command! -bang -nargs=* Rg
   \ call fzf#vim#grep(
-  \   'rg --column --max-count=1 --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>), 1,
+  \   'export RIPGREP_CONFIG_PATH="./.ripgreprc" && rg --column --max-count=1 --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>), 1,
   \   <bang>0 ? fzf#vim#with_preview('up:60%')
   \           : fzf#vim#with_preview('right:50%:hidden', '?'),
   \   <bang>0)
 
 command! -bang -nargs=* Rga
   \ call fzf#vim#grep(
-  \   'rg --column --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>), 1,
+  \   'export RIPGREP_CONFIG_PATH="./.ripgreprc" && rg --column --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>), 1,
   \   <bang>0 ? fzf#vim#with_preview('up:60%')
   \           : fzf#vim#with_preview('right:50%:hidden', '?'),
   \   <bang>0)
