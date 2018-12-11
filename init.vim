@@ -6,6 +6,7 @@ call plug#begin('~/.config/nvim/plugged')
 
 Plug 'scrooloose/nerdtree'
 Plug 'tpope/vim-unimpaired'
+Plug 'leafgarland/typescript-vim'
 Plug 'majutsushi/tagbar'
 Plug 'vim-scripts/TaskList.vim'
 Plug 'SirVer/ultisnips'
@@ -277,7 +278,7 @@ nmap <F8> :TagbarToggle<CR>
 " Tabstops by Language
 "-------------------------------------------------------------------------------
 autocmd Filetype html setlocal ts=2 sts=2 sw=2 tw=0
-autocmd Filetype djangohtml setlocal ts=2 sts=2 sw=2 tw=0
+autocmd Filetype htmldjango setlocal ts=2 sts=2 sw=2 tw=0
 autocmd Filetype javascript setlocal ts=2 sts=2 sw=2 tw=0
 autocmd Filetype python setlocal ts=4 sts=4 sw=4
 "-------------------------------------------------------------------------------
