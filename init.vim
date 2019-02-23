@@ -236,6 +236,11 @@ set wildignore+=*.bak,*~,*.tmp,*.backup,*.swp
 
 " close buffer
 nmap <silent> <leader>d :bp\|bd #<CR><CR>
+
+" %s/from/to interactive.
+" could be split, nosplit
+set inccommand=nosplit
+
 "-------------------------------------------------------------------------------
 " Tagbar
 "-------------------------------------------------------------------------------
@@ -280,6 +285,7 @@ nmap <F8> :TagbarToggle<CR>
 autocmd Filetype html setlocal ts=2 sts=2 sw=2 tw=0
 autocmd Filetype htmldjango setlocal ts=2 sts=2 sw=2 tw=0
 autocmd Filetype javascript setlocal ts=2 sts=2 sw=2 tw=0
+autocmd Filetype typescript setlocal ts=2 sts=2 sw=2 tw=0
 autocmd Filetype python setlocal ts=4 sts=4 sw=4
 "-------------------------------------------------------------------------------
 " Fuzzy Finder
