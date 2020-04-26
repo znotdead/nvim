@@ -18,6 +18,7 @@ Plug 'bling/vim-airline'
 Plug 'jmcantrell/vim-virtualenv'
 Plug 'tpope/vim-fugitive'
 Plug 'google/yapf', { 'rtp': 'plugins/vim', 'for': 'python' }
+Plug 'tpope/vim-fugitive'
 " Language Server Client
 Plug 'autozimu/LanguageClient-neovim', {
     \ 'branch': 'next',
@@ -63,6 +64,11 @@ let g:syntastic_check_on_open = 0
 let g:syntastic_check_on_wq = 0
 let g:syntastic_python_checkers=['flake8']
 let g:syntastic_python_flake8_args='--max-line-length=100'
+
+" ------------------------------------------------------------------------------
+" GIT Fugitive settings
+" ------------------------------------------------------------------------------
+set statusline+=%{FugitiveStatusline()}
 
 " ------------------------------------------------------------------------------
 " Airline settings
