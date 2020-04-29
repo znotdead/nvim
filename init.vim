@@ -241,7 +241,7 @@ endif
 set wildignore+=*.bak,*~,*.tmp,*.backup,*.swp
 
 " close buffer
-nmap <silent> <leader>d :bp\|bd #<CR><CR>
+nmap <silent> <leader>d :bp\|bd #<CR>
 
 " %s/from/to interactive.
 " could be split, nosplit
@@ -303,6 +303,7 @@ vnoremap <silent> <M-o> :FZF<CR>
 "-------------------------------------------------------------------------------
 " Example: :Rg <smth> - find one mention in file
 " Example: :Rga <smth> - find all mentions
+
 command! -bang -nargs=* Rg
   \ call fzf#vim#grep(
   \   'export RIPGREP_CONFIG_PATH="./.ripgreprc" && rg --column --max-count=1 --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>), 1,
