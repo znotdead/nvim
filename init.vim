@@ -9,8 +9,11 @@ Plug 'tpope/vim-unimpaired'
 Plug 'leafgarland/typescript-vim'
 Plug 'majutsushi/tagbar'
 Plug 'vim-scripts/TaskList.vim'
+" Snippets START
 Plug 'SirVer/ultisnips'
 Plug 'znotdead/vim-snippets'
+Plug 'mhartington/vim-angular2-snippets'
+" Snippets END
 Plug 'rstacruz/sparkup'
 Plug 'scrooloose/syntastic'
 Plug 'fs111/pydoc.vim'
@@ -31,10 +34,12 @@ Plug 'junegunn/fzf.vim'
 " Plug 'roxma/nvim-completion-manager'
 " (Completion plugin option 2)
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-Plug 'zchee/deoplete-jedi'
+Plug 'deoplete-plugins/deoplete-jedi'   " Python completion
 Plug 'prettier/vim-prettier', {
   \ 'do': 'npm install',
   \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue'] }
+" RUST
+Plug 'rust-lang/rust.vim'
 
 call plug#end()
 
@@ -60,7 +65,7 @@ set statusline+=%*
 
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 0
+let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 let g:syntastic_python_checkers=['flake8']
 let g:syntastic_python_flake8_args='--max-line-length=100'
@@ -114,6 +119,7 @@ let g:UltiSnipsListSnippets        = "<c-k>" "List possible snippets based on cu
 " Deoplete
 " ------------------------------------------------------------------------------
 let g:deoplete#enable_at_startup = 1
+set completeopt+=noinsert
 
 " ------------------------------------------------------------------------------
 " NERDTree Settings
@@ -317,3 +323,8 @@ command! -bang -nargs=* Rga
   \   <bang>0 ? fzf#vim#with_preview('up:60%')
   \           : fzf#vim#with_preview('right:50%:hidden', '?'),
   \   <bang>0)
+
+"-------------------------------------------------------------------------------
+" RUST related
+"-------------------------------------------------------------------------------
+let g:rustfmt_autosave = 1
