@@ -43,7 +43,6 @@ Plug 'cespare/vim-toml'
 " Typescript
 Plug 'leafgarland/typescript-vim'
 " Python
-Plug 'google/yapf', { 'rtp': 'plugins/vim', 'for': 'python' }
 Plug 'jmcantrell/vim-virtualenv'
 Plug 'fisadev/vim-isort'
 Plug 'fs111/pydoc.vim'
@@ -246,9 +245,9 @@ exe 'inoremap <script> <S-Insert>' paste#paste_cmd['i']
 " CTRL+S saves the buffer
 nmap <C-s> :w<CR>
 
-" CTRL+F format python with YAPF
-map <C-F> :call yapf#YAPF()<cr>
-imap <C-F> <c-o>:call yapf#YAPF()<cr>
+" CTRL+F format python with Black
+map <C-F> :call black#Black()<cr>
+imap <C-F> <c-o>:call black#Black()<cr>
 
 " setup persisent undo
 if has("undofile")
@@ -265,6 +264,19 @@ nmap <silent> <leader>d :bp\|bd #<CR>
 " %s/from/to interactive.
 " could be split, nosplit
 set inccommand=nosplit
+
+" comments. select lines and press <leader>cc or <leader>uc
+augroup comment
+    autocmd!
+    autocmd FileType c,cpp,rust,typescript   let b:comment_leader = '// '
+    autocmd FileType ruby,python             let b:comment_leader = '# '
+    autocmd FileType conf,fstab,sh,bash      let b:comment_leader = '# '
+    autocmd FileType tex                     let b:comment_leader = '% '
+    autocmd FileType mail                    let b:comment_leader = '> '
+    autocmd FileType vim                     let b:comment_leader = '" '
+augroup END
+noremap <silent> <leader>cc :<C-b>silent <C-e>norm ^i<C-r>=b:comment_leader<CR><CR>
+noremap <silent> <leader>uc :<C-b>silent <C-e>norm ^xx<CR>
 
 "-------------------------------------------------------------------------------
 " Tagbar
