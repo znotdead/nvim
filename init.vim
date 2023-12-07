@@ -4,42 +4,55 @@ set nocompatible               " be iMproved
 " -------
 call plug#begin('~/.config/nvim/plugged')
 
+" General
 Plug 'scrooloose/nerdtree'
 Plug 'tpope/vim-unimpaired'
-Plug 'leafgarland/typescript-vim'
 Plug 'majutsushi/tagbar'
 Plug 'vim-scripts/TaskList.vim'
-" Snippets START
+Plug 'bling/vim-airline'
+" Snippets
 Plug 'SirVer/ultisnips'
 Plug 'znotdead/vim-snippets'
 Plug 'mhartington/vim-angular2-snippets'
-" Snippets END
-Plug 'rstacruz/sparkup'
-Plug 'scrooloose/syntastic'
-Plug 'fs111/pydoc.vim'
-Plug 'bling/vim-airline'
-Plug 'jmcantrell/vim-virtualenv'
-Plug 'tpope/vim-fugitive'
-Plug 'google/yapf', { 'rtp': 'plugins/vim', 'for': 'python' }
-Plug 'tpope/vim-fugitive'
+" Fuzzy
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+
+" Completion
 " Language Server Client
 Plug 'autozimu/LanguageClient-neovim', {
     \ 'branch': 'next',
     \ 'do': 'bash install.sh',
     \ }
 " (Optional) Multi-entry selection UI.
-Plug 'junegunn/fzf'
-Plug 'junegunn/fzf.vim'
 " (Completion plugin option 1)
 " Plug 'roxma/nvim-completion-manager'
 " (Completion plugin option 2)
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'deoplete-plugins/deoplete-jedi'   " Python completion
+
+" Diff languages helpers
+Plug 'scrooloose/syntastic'
 Plug 'prettier/vim-prettier', {
   \ 'do': 'npm install',
   \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue'] }
 " RUST
 Plug 'rust-lang/rust.vim'
+" toml
+Plug 'cespare/vim-toml'
+" Typescript
+Plug 'leafgarland/typescript-vim'
+" Python
+Plug 'google/yapf', { 'rtp': 'plugins/vim', 'for': 'python' }
+Plug 'jmcantrell/vim-virtualenv'
+Plug 'fisadev/vim-isort'
+Plug 'fs111/pydoc.vim'
+Plug 'psf/black'
+" HTML
+Plug 'rstacruz/sparkup'
+" Git
+Plug 'tpope/vim-fugitive'
+" Markdown
 
 call plug#end()
 
