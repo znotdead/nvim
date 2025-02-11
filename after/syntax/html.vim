@@ -1,3 +1,4 @@
+syn match angularHtml /@let/
 syn match angularHtml /@if/
 syn match angularHtml /@else/ 
 syn match angularHtml /@else if/
@@ -5,6 +6,7 @@ syn match angularHtml /@for/
 syn match angularHtml /@empty/
 syn match angularHtml /@switch/
 syn match angularHtml /@case/
+syn match angularHtml /@default/
 syn match angularHtml /@defer/
 syn match angularHtml /@placeholder/
 syn match angularHtml /@loading/
