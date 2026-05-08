@@ -47,6 +47,8 @@ Plug 'jmcantrell/vim-virtualenv'
 Plug 'fisadev/vim-isort'
 Plug 'fs111/pydoc.vim'
 Plug 'psf/black'
+Plug 'hdima/python-syntax'
+" Plug 'vim-python/python-syntax'
 " HTML
 Plug 'rstacruz/sparkup'
 " Git
@@ -54,6 +56,7 @@ Plug 'tpope/vim-fugitive'
 " Markdown
 
 call plug#end()
+
 
 " ------------------------------------------------------------------------------
 " Virtualenv
@@ -166,6 +169,9 @@ set termguicolors
 "Invisible character colors
 highlight NonText guifg=#4a4a59
 highlight SpecialKey guifg=#4a4a59
+" enable highlight for vim-python/python-syntax plugin
+let g:python_highlight_all = 1
+let g:python_highlight_func_calls = 0
 
 " insert empty lines in normal mode
 nnoremap <Enter> o<ESC>
@@ -315,7 +321,11 @@ nmap <F8> :TagbarToggle<CR>
 "-------------------------------------------------------------------------------
 "let g:LanguageClient_serverCommands = {
 "    \ 'python': ['pyls', '-v'],
+"    \ 'python': ['/usr/local/bin/pyls'],
 "    \ }
+let g:LanguageClient_serverCommands = {
+    \ 'rust': ['~/.cargo/bin/rustup', 'run', 'stable', 'rls'],
+    \ }
 "-------------------------------------------------------------------------------
 " Tabstops by Language
 "-------------------------------------------------------------------------------

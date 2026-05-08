@@ -43,7 +43,6 @@ if version > 580
 endif
 let g:colors_name="darkmate"
 
-exe 'hi Normal guifg=' . s:white . ' guibg=' . s:carbon
 
 " highlight groups
 hi Cursor		guibg=#ffffff guifg=#000000
@@ -83,8 +82,10 @@ hi SpecialKey	guifg=#8ae234
 
 hi Title		guifg=#ef5939
 hi WarningMsg	guifg=#ef5939
-exe 'hi Number		guifg=' . s:alga
 
+exe 'hi Normal      guifg=' . s:white . ' guibg=' . s:carbon
+exe 'hi Number		guifg=' . s:alga
+exe 'hi Float		guifg=' . s:alga
 exe 'hi MatchParen	guibg=' . s:carbon . ' guifg= ' . s:aqua
 exe 'hi Comment		guifg=' . s:purple
 exe 'hi Constant	guifg=' . s:yellow . ' gui=none'
@@ -94,14 +95,21 @@ exe 'hi Identifier	guifg=' . s:green . ' gui=bold'
 exe 'hi Statement	guifg=' . s:ambra . ' gui=bold'
 exe 'hi Exception   guifg=' . s:cyan
 exe 'hi PreProc		guifg=' . s:aqua
-hi Type			guifg=#8ae234 gui=bold
+exe 'hi Include		guifg=' . s:aqua
+exe 'hi Function	guifg=' . s:orange
+exe 'hi Conditional	guifg=' . s:orange
+exe 'hi Repeat  	guifg=' . s:orange
+exe 'hi Define	    guifg=' . s:magenta
+exe 'hi Todo		guifg=' . s:white . ' guibg=' . s:fuchsia . ' gui=bold'
+exe 'hi Error		guifg=' . s:white . ' guibg=' . s:red
 exe 'hi Special		guifg=' . s:violet
+exe 'hi Structure	guifg=' . s:ambra
+exe 'hi Operator	guifg=' . s:orange
+
+hi Type			guifg=#8ae234 gui=bold
 hi Underlined	guifg=#ad7fa8 gui=underline
 hi Directory	guifg=#729fcf
 hi Ignore		guifg=#555753
-exe 'hi Todo			guifg=' . s:white . ' guibg=' . s:fuchsia . ' gui=bold'
-exe 'hi Error			guifg=' . s:white . ' guibg=' . s:red
-exe 'hi Function		guifg=' . s:orange
 
 "hi WildMenu     guibg=#2e3436 guifg=#ffffff gui=bold
 "hi WildMenu     guifg=#7fbdff guibg=#425c78 gui=none
@@ -150,5 +158,10 @@ hi TabLineSel	guifg=#FFFFFF gui=bold
 hi colorcolumn guifg=#FFFFFF guibg=#202020
 
 " Python specific
+exe 'hi pythonClassVar  guifg=' . s:ambra . ' gui=bold'
+exe 'hi pythonRawString  guifg=' . s:senape
 exe 'hi pythonReserved  guifg=' . s:senape . ' gui=bold'
-exe 'hi pythonDecorator guifg=' . s:magenta
+exe 'hi pythonClass  guifg=' . s:green . ' gui=bold'
+exe 'hi pythonNone  guifg=' . s:magenta
+" pythonBoolean  pythonSingleton pythonBuiltinObj
+" exe 'hi pythonDecorator guifg=' . s:magenta
