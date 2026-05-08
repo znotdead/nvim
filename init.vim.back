@@ -1,3 +1,6 @@
+lua package.path = os.getenv('HOME') .. '/.config/nvim/?.lua;' .. package.path
+lua require('lua_init')
+
 set nocompatible               " be iMproved
 " -------
 " Plugins
@@ -17,6 +20,9 @@ Plug 'mhartington/vim-angular2-snippets'
 " Fuzzy
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
+
+" AI
+" Plug 'huggingface/llm.nvim'
 
 " Completion
 " Language Server Client
