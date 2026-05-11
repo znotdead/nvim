@@ -1,6 +1,5 @@
 -- TODO:
 -- 1. agent, chat and completion
--- 2. comment and uncomment rows
 --
 -- plugins
 local gh = function(x) return 'https://github.com/' .. x end
@@ -29,6 +28,7 @@ vim.pack.add({
     gh('L3MON4D3/LuaSnip'),
     gh('saadparwaiz1/cmp_luasnip'),
 
+    gh('milanglacier/minuet-ai.nvim'),
     gh('tzachar/cmp-ai'),
     gh('nvim-lua/plenary.nvim'),
 
@@ -382,23 +382,28 @@ vim.keymap.set('n', '<leader>d', ':bp|bd #<CR>')
 -- set inccommand=nosplit
 -- 
 -- " ------------------------------------------------------------------------------
--- " FIXME comments. select lines and press <leader>cc or <leader>uc
+-- " comments. select lines and press Alt + /
 -- " ------------------------------------------------------------------------------
--- vim.api.nvim_create_autocmd("FileType", {
---   pattern = { "c", "cpp", "rust", "typescript" },
---   callback = function() vim.b.comment_leader = "// " end,
--- })
--- vim.api.nvim_create_autocmd("FileType", {
---   pattern = { "python", "ruby", "sh", "bash", "conf", "fstab" },
---   callback = function() vim.b.comment_leader = "# " end,
--- })
--- 
--- vim.keymap.set("n", "<leader>cc", function()
---   local leader = vim.b.comment_leader or "# "
---   vim.cmd("norm ^i" .. leader)
--- end, { silent = true })
--- 
--- vim.keymap.set("n", "<leader>uc", "norm ^xx", { silent = true })
+do
+  local binding
+  if vim.fn.has("macunix") == 1 then
+    binding = '÷'
+  elseif vim.fn.has("unix") == 1 then
+    binding = '<M-/>'
+  end
+
+  local operator_rhs = function()
+    return require('vim._comment').operator()
+  end
+
+  vim.keymap.set({ 'n', 'x' }, binding, operator_rhs, { expr = true, desc = 'Toggle comment' })
+
+  local line_rhs = function()
+    return require('vim._comment').operator() .. '_'
+  end
+
+  vim.keymap.set('n', binding, line_rhs, { expr = true, desc = 'Toggle comment line' })
+end
 -- "-------------------------------------------------------------------------------
 -- " Tabstops by Language
 -- "-------------------------------------------------------------------------------
@@ -505,17 +510,18 @@ cmp.setup({
     end, { "i", "s" }),
 
 
-    -- AI Completion triggered only with <C-x>
-    ['<C-w>'] = cmp.mapping(
-      cmp.mapping.complete({
-        config = {
-          sources = cmp.config.sources({
-            { name = 'cmp_ai' },
-          }),
-        },
-      }),
-      { 'i' }
-    ),
+    -- AI Completion triggered only with Alt+y
+    ["<A-y>"] = require('minuet').make_cmp_map()
+    -- ['<A-y>'] = cmp.mapping(
+    --   cmp.mapping.complete({
+    --     config = {
+    --       sources = cmp.config.sources({
+    --         -- { name = 'cmp_ai' },
+    --       }),
+    --     },
+    --   }),
+    --   { 'i' }
+    -- ),
   },
 
   sources = cmp.config.sources({
@@ -523,7 +529,8 @@ cmp.setup({
     { name = 'luasnip' },
     { name = 'buffer', keyword_length = 3 },
     { name = 'path' },
-    -- AI source is NOT enabled by default → only triggered manually
+    -- AI source is NOT enabled by default → only triggered manually. 
+    -- { name = 'minuet' },
   }),
 
   formatting = {
@@ -642,3 +649,30 @@ vim.diagnostic.config({
 vim.lsp.enable('ruff')
 vim.lsp.enable('basedpyright')
 vim.lsp.enable('vtsls')
+
+
+-- minuet
+require('minuet').setup {
+    provider = 'openai_fim_compatible',
+    n_completions = 1, -- recommend for local model for resource saving
+    -- I recommend beginning with a small context window size and incrementally
+    -- expanding it, depending on your local computing power. A context window
+    -- of 512, serves as an good starting point to estimate your computing
+    -- power. Once you have a reliable estimate of your local computing power,
+    -- you should adjust the context window to a larger value.
+    context_window = 512,
+    provider_options = {
+        openai_fim_compatible = {
+            -- For Windows users, TERM may not be present in environment variables.
+            -- Consider using APPDATA instead.
+            api_key = 'TERM',
+            name = 'Ollama',
+            end_point = 'http://localhost:11434/v1/completions',
+            model = 'qwen2.5-coder:7b',
+            optional = {
+                max_tokens = 56,
+                top_p = 0.9,
+            },
+        },
+    },
+}
