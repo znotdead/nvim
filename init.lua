@@ -1,8 +1,8 @@
--- TODO:
--- 1. agent, chat and completion
---
 -- plugins
 local gh = function(x) return 'https://github.com/' .. x end
+
+-- to list all plugins run command:
+-- :lua vim.pack.update(nil, { offline = true })
 
 vim.pack.add({
     -- file tree
@@ -18,7 +18,7 @@ vim.pack.add({
     gh('ibhagwan/fzf-lua'),
     -- show definitions
     -- gh('majutsushi/tagbar'),
-    --
+
     -- AI and completion
     gh('neovim/nvim-lspconfig'),
     gh('hrsh7th/nvim-cmp'),
@@ -27,31 +27,12 @@ vim.pack.add({
     gh('hrsh7th/cmp-path'),
     gh('L3MON4D3/LuaSnip'),
     gh('saadparwaiz1/cmp_luasnip'),
-
     gh('milanglacier/minuet-ai.nvim'),
-    gh('tzachar/cmp-ai'),
-    gh('nvim-lua/plenary.nvim'),
 
     -- " Snippets (from ultisnips to luasnip)
     gh('znotdead/vim-snippets'),
     -- gh('mhartington/vim-angular2-snippets'),
 
--- " AI
--- " Plug 'huggingface/llm.nvim'
--- 
--- " Completion
--- " Language Server Client
--- Plug 'autozimu/LanguageClient-neovim', {
---     \ 'branch': 'next',
---     \ 'do': 'bash install.sh',
---     \ }
--- " (Optional) Multi-entry selection UI.
--- " (Completion plugin option 1)
--- " Plug 'roxma/nvim-completion-manager'
--- " (Completion plugin option 2)
--- Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
--- Plug 'deoplete-plugins/deoplete-jedi'   " Python completion
---
     -- " Diff languages helpers
     -- " RUST
     -- gh('rust-lang/rust.vim'),
@@ -69,6 +50,12 @@ vim.pack.add({
     -- " Git
     -- gh('tpope/vim-fugitive')
 })
+--Clean UP: remove inactive after plugin add
+vim.pack.del(vim.iter(vim.pack.get())
+ :filter(function(x) return not x.active end)
+ :map(function(x) return x.spec.name end)
+ :totable()
+)
 
 
 -- " ------------------------------------------------------------------------------
@@ -194,23 +181,10 @@ end, {})
 -- " ------------------------------------------------------------------------------
 -- set statusline+=%{FugitiveStatusline()}
 -- " ------------------------------------------------------------------------------
--- " UltiSnips
--- " ------------------------------------------------------------------------------
--- let g:UltiSnipsExpandTrigger       = "<c-j>"
--- let g:UltiSnipsJumpForwardTrigger  = "<c-j>"
--- let g:UltiSnipsJumpBackwardTrigger = "<c-p>"
--- let g:UltiSnipsListSnippets        = "<c-k>" "List possible snippets based on current file
--- 
--- " ------------------------------------------------------------------------------
 -- " Sparkup
 -- " ------------------------------------------------------------------------------
 -- " Ctrl+E, Ctrl+n
 -- 
--- " ------------------------------------------------------------------------------
--- " Deoplete
--- " ------------------------------------------------------------------------------
--- let g:deoplete#enable_at_startup = 1
--- set completeopt+=noinsert
 -- "-------------------------------------------------------------------------------
 -- " Tagbar
 -- "-------------------------------------------------------------------------------
@@ -241,18 +215,6 @@ end, {})
 -- "-------------------------------------------------------------------------------
 -- """ PYDOC path
 -- " let g:pydoc_cmd=/usr/bin/pydoc
--- 
--- "-------------------------------------------------------------------------------
--- " Language Server
--- "-------------------------------------------------------------------------------
--- "let g:LanguageClient_serverCommands = {
--- "    \ 'python': ['pyls', '-v'],
--- "    \ 'python': ['/usr/local/bin/pyls'],
--- "    \ }
--- let g:LanguageClient_serverCommands = {
---     \ 'rust': ['~/.cargo/bin/rustup', 'run', 'stable', 'rls'],
---     \ }
-
 -- " ------------------------------------------------------------------------------
 -- ====================== Ruff ======================
 -- " ------------------------------------------------------------------------------
@@ -418,45 +380,13 @@ vim.api.nvim_create_autocmd("FileType", {
 })
 
 -- "-------------------------------------------------------------------------------
--- ================== AI =====================
+--- -- ====================== nvim-cmp ======================
 -- "-------------------------------------------------------------------------------
---- -- ====================== nvim-cmp + cmp-ai ======================
 local cmp = require('cmp')
-local cmp_ai = require('cmp_ai.config')
 local luasnip = require("luasnip")
 
 -- Load all SnipMate snippets from plugins (e.g. honza/vim-snippets)
 require("luasnip.loaders.from_snipmate").lazy_load()
-
--- Configure cmp-ai with Ollama + Qwen
-cmp_ai:setup({
-  provider = 'Ollama',
-  model = nil,
-  provider_options = {
-    model = "qwen2.5-coder:7b",        -- set to your model
-    auto_unload = false, -- Set to true to automatically unload the model when exiting nvim.
-    prompt = function(lines_before, lines_after)
-    -- You may include filetype and/or other project-wise context in this string as well.
-    -- Consult model documentation in case there are special tokens for this.
-      return "<|fim_prefix|>" .. lines_before .. "<|fim_suffix|>" .. lines_after .. "<|fim_middle|>"
-    end,
-    -- raw_response_cb = function(response)
-    -- -- the `response` parameter contains the raw response (JSON-like) object.
-
-    -- vim.notify(vim.inspect(response)) -- show the response as a lua table
-
-    -- vim.g.ai_raw_response = response -- store the raw response in a global
-    --                                  -- variable so that you can use it
-    --                                  -- somewhere else (like statusline).
-    -- end,
-  },
-  -- provider = "openai_fim_compatible", -- alternative if needed
-  -- endpoint = "http://localhost:11434",
-  run_on_every_keystroke = false,
-  notify = true,
-  max_tokens = 256,
-  temperature = 0.2,
-}) 
 
 cmp.setup({
   snippet = {
@@ -512,16 +442,6 @@ cmp.setup({
 
     -- AI Completion triggered only with Alt+y
     ["<A-y>"] = require('minuet').make_cmp_map()
-    -- ['<A-y>'] = cmp.mapping(
-    --   cmp.mapping.complete({
-    --     config = {
-    --       sources = cmp.config.sources({
-    --         -- { name = 'cmp_ai' },
-    --       }),
-    --     },
-    --   }),
-    --   { 'i' }
-    -- ),
   },
 
   sources = cmp.config.sources({
@@ -651,6 +571,7 @@ vim.lsp.enable('basedpyright')
 vim.lsp.enable('vtsls')
 
 
+-- ================== AI =====================
 -- minuet
 require('minuet').setup {
     provider = 'openai_fim_compatible',
